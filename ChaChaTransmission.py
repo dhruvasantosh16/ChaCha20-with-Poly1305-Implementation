@@ -25,10 +25,6 @@ print(tag)
 #print("Nonce: ")
 #print(cipher.nonce)
 
-#Transmission Byte String
-trans = b"".join([ciphertext,tag,nnc])
-print(trans)
-
 #Decryption
 #cipher_d = ChaCha20_Poly1305.new(key=key, nonce=nnc)
 #plaintext_b = cipher_d.decrypt_and_verify(ciphertext,tag)
