@@ -18,12 +18,42 @@ cipher = ChaCha20_Poly1305.new(key=key)
 ciphertext, tag = cipher.encrypt_and_digest(inp_b)
 nnc = cipher.nonce
 
+#socket variables
+host = '127.0.0.1'
+port = 12345
+port1 = 12346
+port2 = 12347
 print("Ciphertext: ")
 print(ciphertext)
 print("MAC: ")
 print(tag)
-#print("Nonce: ")
-#print(cipher.nonce)
+print("Nonce: ")
+print(cipher.nonce)
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s1:
+    s1.connect((host,port))
+    print('sending ciphertext...')
+    s1.sendall(ciphertext)
+    data = s1.recv(1024)
+    print(data)
+s1.close()
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s2:
+    s2.connect((host,port1))
+    print('sending tag...')
+    s2.sendall(tag)
+    data = s2.recv(1024)
+    print(data)
+s2.close()
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s3:
+    s3.connect((host,port2))
+    print('sending nnc...')
+    s3.sendall(nnc)
+    data = s3.recv(1024)
+    print(data)
+s3.close()
+  
 
 #Decryption
 #cipher_d = ChaCha20_Poly1305.new(key=key, nonce=nnc)
