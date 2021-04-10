@@ -1,4 +1,9 @@
+from Cryptodome.Cipher import ChaCha20_Poly1305
 import socket
+import time
+
+start_time = time.time()
+
 host = '127.0.0.1'
 port = 12345
 port1 = 12346
@@ -32,3 +37,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s3:
         c3.sendall(b'acknowledged')
         print('received data', data3)
     s3.close()
+
+key = b'\x1a\xe0J\xb7\xfe\x18\x08>+\xd9\xb4\xb8,+n#\xef\xc1\x0b\xa2\xa3\x01\x8c\xf4\xd7\x17\xbf\xc9\xc0\x0c\xb0z'
+cipher = ChaCha20_Poly1305.new(key=key, nonce=data3)
+plaintext_b = cipher.decrypt(data1)
+cipher.verify(data2)
+plaintext = int.from_bytes(plaintext_b, byteorder="little",signed=0)
+print(plaintext)
+
+Total_time = (time.time()- start_time)
+print(Total_time)
