@@ -5,7 +5,6 @@ import time
 
 start_time = time.time()
 
-@jit(nopython=True)
 def sockreceive():
     host = '127.0.0.1'
     port = 12345
@@ -41,8 +40,7 @@ def sockreceive():
             print('received data', data3)
         s3.close()
     return data1, data2, data3
-
-@jit(nopython=True)
+ 
 def dec(data1, data2, data3):
     key = b'\x1a\xe0J\xb7\xfe\x18\x08>+\xd9\xb4\xb8,+n#\xef\xc1\x0b\xa2\xa3\x01\x8c\xf4\xd7\x17\xbf\xc9\xc0\x0c\xb0z'
     cipher = ChaCha20_Poly1305.new(key=key, nonce=data3)
@@ -51,7 +49,6 @@ def dec(data1, data2, data3):
     plaintext = int.from_bytes(plaintext_b, byteorder="little",signed=0)
     print(plaintext)
 
-@jit(nopython=True)
 def main():
     data1, data2, data3 = sockreceive()
     dec(data1, data2, data3)
