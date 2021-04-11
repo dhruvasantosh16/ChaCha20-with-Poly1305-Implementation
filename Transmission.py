@@ -1,6 +1,7 @@
 from Cryptodome.Cipher import ChaCha20_Poly1305
 from Cryptodome.Random import get_random_bytes
 from Cryptodome.Random.random import randint  
+from numba import jit
 import time
 import socket
 
@@ -8,6 +9,7 @@ import socket
 time_start = time.time()
 
 #Input Generation
+@jit(nopython=True)
 def input():
     inp = randint(0,1023)
     print("Randomized Input: ")
@@ -16,6 +18,7 @@ def input():
     return inp_b
 
 #Ciphertext Generation
+@jit(nopython=True)
 def gen(inp_b):
     key = b'\x1a\xe0J\xb7\xfe\x18\x08>+\xd9\xb4\xb8,+n#\xef\xc1\x0b\xa2\xa3\x01\x8c\xf4\xd7\x17\xbf\xc9\xc0\x0c\xb0z'
     cipher = ChaCha20_Poly1305.new(key=key)
@@ -24,6 +27,7 @@ def gen(inp_b):
     return ciphertext, tag, nnc
 
 #socket variables
+@jit(nopython=True)
 def socksend(ciphertext, tag, nnc):
     host = '127.0.0.1'
     port = 12345
@@ -57,6 +61,7 @@ def socksend(ciphertext, tag, nnc):
         print(data3)
     s3.close()
 
+@jit(nopython=True)
 def main():
     inp_b = input()
     ciphertext, tag, nnc = gen(inp_b)
