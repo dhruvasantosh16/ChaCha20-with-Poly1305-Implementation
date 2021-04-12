@@ -1,5 +1,4 @@
 from Cryptodome.Cipher import ChaCha20_Poly1305
-#from numba import jit
 import socket
 import time
 import math

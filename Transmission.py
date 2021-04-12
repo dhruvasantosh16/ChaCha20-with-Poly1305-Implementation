@@ -1,7 +1,6 @@
 from Cryptodome.Cipher import ChaCha20_Poly1305
 from Cryptodome.Random import get_random_bytes
 from Cryptodome.Random.random import randint  
-#from numba import jit
 import time
 import socket
 
