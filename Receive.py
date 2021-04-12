@@ -93,6 +93,7 @@ def main():
     plaintext = dec(data1, data2, data3)
     angle_b = calc(plaintext)
     ciphertext_r, tag_r, nnc_r = enc(angle_b)
+    sock("send", ciphertext_r, tag_r, nnc_r)
 
 if __name__ == "__main__":
     main()

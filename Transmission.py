@@ -75,6 +75,8 @@ def main():
     inp_b = input()
     ciphertext, tag, nnc = gen(inp_b)
     sock("send",ciphertext, tag, nnc)
+    ciphertext_r, tag_r, nnc_r = sock("r")
+    print(ciphertext_r, tag_r, nnc_r)
     
 if __name__ == "__main__":
     main()
