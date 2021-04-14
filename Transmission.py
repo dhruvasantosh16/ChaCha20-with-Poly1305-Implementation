@@ -27,9 +27,9 @@ def gen(inp_b):
   
 def sock(s, *args):
     host = '127.0.0.1'
-    port = 12345
-    port1 = 12346
-    port2 = 12347
+    port = 4201
+    port1 = 4202
+    port2 = 4203
     s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
