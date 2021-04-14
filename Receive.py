@@ -3,7 +3,7 @@ import socket
 import time
 import math
 import os
-
+file1 = open('timingdatareceive.txt', 'a')
 start_time = time.time()
 
 def sock(s, *args):
@@ -32,6 +32,7 @@ def sock(s, *args):
             c1.sendall(data1)
             #ack = c1.recv(1024)
             #print(ack)
+            s1.close()
 
         
         with c2:
@@ -39,6 +40,7 @@ def sock(s, *args):
             c2.sendall(data2)
             #ack2 = c2.recv(1024)
             #print(ack2)
+            s2.close()
         
         
         with c3:
@@ -46,22 +48,26 @@ def sock(s, *args):
             c3.sendall(data3)
             #ack3 = c3.recv(1024)
             #print(ack3)
+            s3.close()
 
     else:
         with c1:
             rdata1 = c1.recv(2000)
             #print('received', rdata1)
             #c1.sendall(b"acknowledged")
+            s1.close()
 
         with c2:
             rdata2 = c2.recv(2000)
             #print('received', rdata2)
             #c2.sendall(b"acknowledged")
+            s2.close()
 
         with c3:
             rdata3 = c3.recv(2000)
             #print('received', rdata3)
             #c3.sendall(b"acknowledged")
+            s3.close()
             return rdata1, rdata2, rdata3
  
 def dec(data1, data2, data3):
@@ -100,6 +106,9 @@ if __name__ == "__main__":
     main()
 
 Total_time = (time.time()- start_time)
-print(Total_time)
+#print(Total_time)
 
-os.system('cmd /k')
+file1.write(str(Total_time) + "\n")
+file1.close()
+
+#os.system('cmd /k')

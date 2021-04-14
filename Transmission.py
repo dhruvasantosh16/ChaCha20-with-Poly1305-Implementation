@@ -4,7 +4,7 @@ from Cryptodome.Random.random import randint
 import time
 import socket
 import os
-
+file1 = open('timingdatatransmission.txt', 'a')
 #Timing Start
 time_start = time.time()
 
@@ -45,29 +45,35 @@ def sock(s, *args):
         s1.sendall(data1)
         #ack = s1.recv(2000)
         #print(ack)
-
+        s1.close()
+        
         #print("sending", data2)
         s2.sendall(data2)
         #ack = s2.recv(2000)
         #print(ack)
-
+        s2.close()
+        
         #print("sending", data3)
         s3.sendall(data3)
         #ack = s3.recv(2000)
         #print(ack)
+        s3.close()
 
     else:
         rdata1 = s1.recv(2000)
         #print("recieved", rdata1)
         #s1.sendall(b"acknowledged")
+        s1.close()
         
         rdata2 = s2.recv(2000)
         #print("received", rdata2)
         #s2.sendall(b"acknowledged")
+        s2.close()
 
         rdata3 = s3.recv(2000)
         #print("received", rdata3)
         #s3.sendall(b"acknowledged")
+        s3.close()
         return rdata1, rdata2, rdata3
 
 def dec(data1, data2, data3):
@@ -92,10 +98,11 @@ if __name__ == "__main__":
     main()
   
 Total_time = (time.time()-time_start)
-print(Total_time)
+#print(Total_time)
 
-
-os.system('cmd /k')
+file1.write(str(Total_time) + "\n")
+file1.close()
+#os.system('cmd /k')
 #Decryption
 #cipher_d = ChaCha20_Poly1305.new(key=key, nonce=nnc)
 #plaintext_b = cipher_d.decrypt_and_verify(ciphertext,tag)
