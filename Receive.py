@@ -3,11 +3,12 @@ from Cryptodome.Cipher import ChaCha20_Poly1305
 import socket
 import time
 import math
+import os
 
 start_time = time.time()
 
 def sock(s, *args):
-    host = '127.0.0.1'
+    host = ''
     port = 12345
     port1 = 12346
     port2 = 12347
@@ -28,40 +29,40 @@ def sock(s, *args):
         data2 = args[1]
         data3 = args[2]
         with c1:
-            print("sending", data1)
+            #print("sending", data1)
             c1.sendall(data1)
-            ack = c1.recv(1024)
-            print(ack)
+            #ack = c1.recv(1024)
+            #print(ack)
 
         
         with c2:
-            print("sending", data2)
+            #print("sending", data2)
             c2.sendall(data2)
-            ack2 = c2.recv(1024)
-            print(ack2)
+            #ack2 = c2.recv(1024)
+            #print(ack2)
         
         
         with c3:
-            print("sending", data3)
+            #print("sending", data3)
             c3.sendall(data3)
-            ack3 = c3.recv(1024)
-            print(ack3)
+            #ack3 = c3.recv(1024)
+            #print(ack3)
 
     else:
         with c1:
             rdata1 = c1.recv(2000)
-            print('received', rdata1)
-            c1.sendall(b"acknowledged")
+            #print('received', rdata1)
+            #c1.sendall(b"acknowledged")
 
         with c2:
             rdata2 = c2.recv(2000)
-            print('received', rdata2)
-            c2.sendall(b"acknowledged")
+            #print('received', rdata2)
+            #c2.sendall(b"acknowledged")
 
         with c3:
             rdata3 = c3.recv(2000)
-            print('received', rdata3)
-            c3.sendall(b"acknowledged")
+            #print('received', rdata3)
+            #c3.sendall(b"acknowledged")
             return rdata1, rdata2, rdata3
  
 def dec(data1, data2, data3):
@@ -70,13 +71,13 @@ def dec(data1, data2, data3):
     plaintext_b = cipher.decrypt(data1)
     cipher.verify(data2)
     plaintext = int.from_bytes(plaintext_b, byteorder="little",signed=0)
-    print(plaintext)
+    print("Randomized input: ", plaintext)
     return plaintext
 
 def calc(plaintext):
     plaintext = plaintext ** (1/3)
     angle = math.floor(plaintext*10)
-    print("Angle of Servo: ",angle)
+    #print("Angle of Servo: ",angle)
     angle_b = angle.to_bytes(length=2, byteorder="little", signed=0)
     return angle_b
     
@@ -94,9 +95,12 @@ def main():
     angle_b = calc(plaintext)
     ciphertext_r, tag_r, nnc_r = enc(angle_b)
     sock("send", ciphertext_r, tag_r, nnc_r)
+    
 
 if __name__ == "__main__":
     main()
 
 Total_time = (time.time()- start_time)
 print(Total_time)
+
+os.system('cmd /k')
